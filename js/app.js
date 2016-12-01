@@ -33,6 +33,8 @@ var SAAgent,
     SASocket,
     connectionListener,
     str = "",
+    str2 = "",
+    macro = 0,
     retime1 = 0,
 	retime2 = 0,
 	retime3 = 0,
@@ -93,6 +95,7 @@ connectionListener = {
         
         dataOnReceive =  function dataOnReceive (channelId, data) {
             
+        	
         	var newData = Number(data) - 1;
 
             if (!SAAgent.channelIds[0]) {
@@ -278,6 +281,9 @@ connectionListener = {
             
             else if(newData === 7) {
             	/* 완료 */
+            	if(macro === 1) {
+            		str2 = str;
+            	}
             } 
             
             else if(newData === 8) {
@@ -346,8 +352,16 @@ connectionListener = {
                 }
             	
             } 
-            else if(newData === 11) {
-            	/* 대소문자 구분 */
+            else if(newData === 11) {	
+            	if(macro === 0) {
+            		macro = 1;
+            		document.getElementById("title").innerHTML = "Glouch(Macro)";      		
+            	} 
+            	else {
+            		macro = 0;
+            		document.getElementById("title").innerHTML = "Glouch";
+            	}
+            	
             }
             else {
             	
@@ -371,6 +385,7 @@ connectionListener = {
         createHTML("Service connection error<br />errorCode: " + errorCode);
     }
 };
+
 
 function requestOnSuccess (agents) {
     var i = 0;
