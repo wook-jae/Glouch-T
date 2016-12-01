@@ -2,7 +2,3 @@
  +node_js:
  +  - "4.1"
  +  - "4.2"
- +before_install:
- +  - npm install -g grunt-cli
- +script:
- +  - grunt precommit
