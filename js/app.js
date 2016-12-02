@@ -56,6 +56,12 @@ function createHTML(log_string)
     tau.openPopup("#toast");
 }
 
+window.addEventListener("devicemotion", function(event){
+
+	document.getElementById("label1").innerHTML = event.acceleration.x / event.acceleration.z;
+    	
+},true)
+
 connectionListener = {
     /* Remote peer agent (Consumer) requests a service (Provider) connection */
     onrequest: function (peerAgent) {
