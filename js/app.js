@@ -32,14 +32,20 @@
 var SAAgent,
     SASocket,
     connectionListener,
+    /* 입력 메시지 */
     str = "",
-    str2 = "macro",
+    /* 메크로 메시지 */
+    str2 = "",
+    /* 메크로 flag */
     macro = 0,
+    /* 대기시간 */
     retime1 = 0,
 	retime2 = 0,
 	retime3 = 0,
 	retime4 = 0,
+	/*이전 입력 데이터*/
 	predata = -1,
+	/*자판*/
 	arr = [[".",",","?","!"],["a", "b", "c"],["d","e","f"],[],
 	       ["g","h","i"],["j","k","l"],["m","n","o"],[],
 	       ["p","q"],["r","s","t"],["u","v","w"],[],
@@ -52,7 +58,7 @@ tizen.application.getCurrentApplication().hide();
 /* 화면을 항상 켜놈 */
 tizen.power.request("SCREEN", "SCREEN_NORMAL");
 
-
+/* 팝업창 */
 function createHTML(log_string)
 {
     var content = document.getElementById("toast-content");
@@ -60,16 +66,26 @@ function createHTML(log_string)
     tau.openPopup("#toast");
 }
 
-
+/* 모션 인식 */
 window.addEventListener("devicemotion", function(event){
 	
-	if(event.acceleration.y > 10 && macro === 1){
+	if(event.acceleration.y > 15 && macro === 1 && str2 !== ""){
 		SASocket.sendData(SAAgent.channelIds[0], str2);
+		
+		document.getElementById("title").innerHTML = "Glouch";
+		createHTML("'macro'메시지를 전송 했습니다.");
+		
+		str = "";
 		macro = 0;
-		createHTML("메세지를 전송하였습니다.");
+		document.getElementById("label1").innerHTML = str;
+        
+        
+	} else {
+		if(event.acceleration.y > 15 && macro === 1 && str2 === "") {
+			createHTML("'macro'메시지가 비어 있습니다.");
+		}
 	}
-    	
-},true)
+},true);
 
 
 connectionListener = {
@@ -198,6 +214,7 @@ connectionListener = {
                 }
             } 
             
+            /* ,.?! */
             else if(newData === 0) {
             	
             	if(predata !== newData) {
@@ -290,26 +307,28 @@ connectionListener = {
                 }
             } 
             
+            /* 백스페이스 */
             else if(newData === 3) {
             	
             	str = str.substring(0, str.length - 1);
             } 
             
+            /* 완료 버튼 */
             else if(newData === 7) {
-            	/* 완료 */
-            	
+            	           
             	if(macro === 1) {
             		str2 = str;
-            	}
-            	
+            		createHTML("'macro'메시지를 저장 했습니다.");	
+            	}       	
             	else {
             		
             		SASocket.sendData(SAAgent.channelIds[0], str);
-            		str = "";
+            		createHTML("메시지를 전송 했습니다.");
             	}
-            	            	
+            	str = "";            	
             } 
             
+            /* p,q */
             else if(newData === 8) {
 
             	if(predata !== newData) {
@@ -376,6 +395,7 @@ connectionListener = {
                 }
             	
             } 
+            /* 메크로 버튼 */
             else if(newData === 11) {	
             	if(macro === 0) {
             		macro = 1;
@@ -387,6 +407,7 @@ connectionListener = {
             	}
             	str = "";
             }
+            /* 스페이스바 */
             else {
             	
             	str = str + " ";
@@ -394,7 +415,8 @@ connectionListener = {
             	
             	
             predata = newData;
-          
+            
+            /* 입력창에 입력 */
             var output = document.getElementById("label1");
             output.innerHTML = str;
             
