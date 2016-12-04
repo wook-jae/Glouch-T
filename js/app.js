@@ -33,7 +33,7 @@ var SAAgent,
     SASocket,
     connectionListener,
     str = "",
-    str2 = "",
+    str2 = "macro",
     macro = 0,
     retime1 = 0,
 	retime2 = 0,
@@ -60,13 +60,17 @@ function createHTML(log_string)
     tau.openPopup("#toast");
 }
 
-/*
+
 window.addEventListener("devicemotion", function(event){
 	
-	document.getElementById("label1").innerHTML = Math.atan(event.acceleration.x/event.acceleration.z);
+	if(event.acceleration.y > 10 && macro === 1){
+		SASocket.sendData(SAAgent.channelIds[0], str2);
+		macro = 0;
+		createHTML("메세지를 전송하였습니다.");
+	}
     	
 },true)
-*/
+
 
 connectionListener = {
     /* Remote peer agent (Consumer) requests a service (Provider) connection */
@@ -381,7 +385,7 @@ connectionListener = {
             		macro = 0;
             		document.getElementById("title").innerHTML = "Glouch";
             	}
-            	
+            	str = "";
             }
             else {
             	
