@@ -3,10 +3,11 @@
     <tizen:application id="UM2FcDkLYZ.HelloAccessoryProvider" package="UM2FcDkLYZ" required_version="2.2"/>
     <content src="index.html"/>
     <feature name="http://developer.samsung.com/tizen/feature/network.accessory_protocol"/>
-    <tizen:metadata key="AccessoryServicesLocation" value="res/xml/accessoryservices.xml"/>
-    <tizen:privilege name="http://developer.samsung.com/privilege/accessoryprotocol"/>
     <icon src="icon.png"/>
+    <tizen:metadata key="AccessoryServicesLocation" value="res/xml/accessoryservices.xml"/>
     <name>Glouch</name>
-    <tizen:setting background-support="enable" encryption="disable" hwkey-event="enable"/>
+    <tizen:privilege name="http://developer.samsung.com/privilege/accessoryprotocol"/>
+    <tizen:privilege name="http://tizen.org/privilege/power"/>
     <tizen:profile name="wearable"/>
+    <tizen:setting background-support="enable" encryption="disable" hwkey-event="enable"/>
 </widget>

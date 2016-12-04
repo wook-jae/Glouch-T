@@ -49,6 +49,10 @@ var SAAgent,
 /* Make Provider application running in background */
 tizen.application.getCurrentApplication().hide();
 
+/* 화면을 항상 켜놈 */
+tizen.power.request("SCREEN", "SCREEN_NORMAL");
+
+
 function createHTML(log_string)
 {
     var content = document.getElementById("toast-content");
@@ -56,11 +60,13 @@ function createHTML(log_string)
     tau.openPopup("#toast");
 }
 
+/*
 window.addEventListener("devicemotion", function(event){
-
-	document.getElementById("label1").innerHTML = event.acceleration.x / event.acceleration.z;
+	
+	document.getElementById("label1").innerHTML = Math.atan(event.acceleration.x/event.acceleration.z);
     	
 },true)
+*/
 
 connectionListener = {
     /* Remote peer agent (Consumer) requests a service (Provider) connection */
@@ -287,9 +293,17 @@ connectionListener = {
             
             else if(newData === 7) {
             	/* 완료 */
+            	
             	if(macro === 1) {
             		str2 = str;
             	}
+            	
+            	else {
+            		
+            		SASocket.sendData(SAAgent.channelIds[0], str);
+            		str = "";
+            	}
+            	            	
             } 
             
             else if(newData === 8) {
@@ -377,8 +391,6 @@ connectionListener = {
             	
             predata = newData;
           
-            SASocket.sendData(SAAgent.channelIds[0], newData);
-            
             var output = document.getElementById("label1");
             output.innerHTML = str;
             
