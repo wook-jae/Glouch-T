@@ -38,7 +38,7 @@ var SAAgent,
     str2 = "",
     /* 메크로 flag */
     macro = 0,
-    /* 대기시간 */
+    /* 입력대기시간 */
     retime1 = 0,
 	retime2 = 0,
 	retime3 = 0,
@@ -134,13 +134,12 @@ connectionListener = {
                 createHTML("Something goes wrong...NO CHANNEL ID!");
                 return;
             }
+
             /* Calculate input value */
-                        
             if(newData % 4 !== 3 && newData !== 0 && newData !== 8 && newData !== 13) {
             	
             	/* 이전입력과 비교 */
             	if(predata !== newData) {
-                	
             		if(str === "") {
             			str = arr[newData][0];
             		} 
@@ -154,17 +153,14 @@ connectionListener = {
                 	setTimeout(function () {
                         retime1 = 0;
                     }, 3000);
-                	
                 } 
             	else {
 
             		/* 3초 후 입력 */
                 	if(retime1 === 0 && retime2 === 0 && retime3 === 0) {
-
                 		if(str === "") {
                 			str = arr[newData][0];
                 		} 
-                		
                 		else {
                 			str = str + arr[newData][0];
                 		}
@@ -175,8 +171,8 @@ connectionListener = {
                     	setTimeout(function () {
                             retime1 = 0;
                         }, 3000);
-
                     } 
+                	
                 	/* 3초 전 입력 */
                     else if(retime1 === 1 && retime2 === 0 && retime3 === 0) {
                     	
@@ -212,7 +208,6 @@ connectionListener = {
                     	setTimeout(function () {
                             retime1 = 0;
                         }, 3000);
-                    	
                     }                	
                 }
             } 
@@ -235,7 +230,6 @@ connectionListener = {
                 	setTimeout(function () {
                         retime1 = 0;
                     }, 3000); 
-                	
                 } 
             	else {
 
@@ -255,7 +249,6 @@ connectionListener = {
                     	setTimeout(function () {
                             retime1 = 0;
                         }, 3000);
-
                     } 
                     else if(retime1 === 1 && retime2 === 0 && retime3 === 0 && retime4 === 0) {
                     	
@@ -267,7 +260,6 @@ connectionListener = {
                     	setTimeout(function () {
                             retime2 = 0;
                         }, 3000);
-                    	
                     } 
                     else if(retime2 === 1 && retime3 === 0 && retime4 === 0) {
 
@@ -279,7 +271,6 @@ connectionListener = {
                     	setTimeout(function () {
                             retime3 = 0;
                         }, 3000);
-                    	
                     } 
                     else if(retime3 === 1 && retime4 === 0) {
                     	
@@ -290,7 +281,6 @@ connectionListener = {
                     	setTimeout(function () {
                             retime4 = 0;
                         }, 3000);
-                    	
                     } 
                     else if(retime4 === 1) {
                     	
@@ -305,7 +295,6 @@ connectionListener = {
                     	setTimeout(function () {
                             retime1 = 0;
                         }, 3000);
-                    	
                     }
                 }
             } 
@@ -394,10 +383,9 @@ connectionListener = {
                             retime1 = 0;
                         }, 3000);
                     } 
-                                    	
                 }
-            	
             } 
+            
             /* 메크로 버튼 */
             else if(newData === 11) {	
             	if(macro === 0) {
@@ -416,15 +404,13 @@ connectionListener = {
             	str = str + " ";
             }
             	
-            	
             predata = newData;
             
             /* 입력창에 입력 */
             var output = document.getElementById("label1");
             output.innerHTML = str;
-            
         };
-
+        
         /* Set listener for incoming data from Consumer */
         SASocket.setDataReceiveListener(dataOnReceive);
     },
@@ -458,7 +444,6 @@ function requestOnError (e) {
 
 /* Requests the SAAgent specified in the Accessory Service Profile */
 webapis.sa.requestSAAgent(requestOnSuccess, requestOnError);
-
 
 (function () {
     /* Basic Gear gesture & buttons handler */
