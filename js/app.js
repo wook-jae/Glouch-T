@@ -69,7 +69,7 @@ function createHTML(log_string)
 /* 모션 인식 */
 window.addEventListener("devicemotion", function(event){
 	
-	if(event.acceleration.y > 15 && macro === 1 && str2 !== ""){
+	if(event.acceleration.y > 10 && event.acceleration.z > 5 && macro === 1 && str2 !== ""){
 		SASocket.sendData(SAAgent.channelIds[0], str2);
 		
 		document.getElementById("title").innerHTML = "Glouch";
@@ -81,7 +81,7 @@ window.addEventListener("devicemotion", function(event){
         
         
 	} else {
-		if(event.acceleration.y > 15 && macro === 1 && str2 === "") {
+		if(event.acceleration.y > 10 && event.acceleration.z > 5 && macro === 1 && str2 === "") {
 			createHTML("'macro'메시지가 비어 있습니다.");
 		}
 	}
@@ -138,6 +138,7 @@ connectionListener = {
                         
             if(newData % 4 !== 3 && newData !== 0 && newData !== 8 && newData !== 13) {
             	
+            	/* 이전입력과 비교 */
             	if(predata !== newData) {
                 	
             		if(str === "") {
@@ -157,6 +158,7 @@ connectionListener = {
                 } 
             	else {
 
+            		/* 3초 후 입력 */
                 	if(retime1 === 0 && retime2 === 0 && retime3 === 0) {
 
                 		if(str === "") {
@@ -175,6 +177,7 @@ connectionListener = {
                         }, 3000);
 
                     } 
+                	/* 3초 전 입력 */
                     else if(retime1 === 1 && retime2 === 0 && retime3 === 0) {
                     	
                     	str = str.substring(0, str.length - 1) + arr[newData][1];
